@@ -3,7 +3,7 @@
 Track B. This is a single, isolated, swappable module. Build and prove it standing alone,
 against real clips, before it is ever wired into Track A's `missing`-event handler.
 
-**Read `INTERFACES.md` §1 before anything else in this file.** That is the frozen
+**Read `../docs/INTERFACES.md` §1 before anything else in this file.** That is the frozen
 contract. This subplan is about how you get there, not what the function returns — the
 signature is not up for revision without telling Track A.
 
@@ -21,7 +21,7 @@ It is **not**:
 
 Every result it returns is: a stored clip, an offset into it, and a similarity score.
 Nothing else. Do not build anything on top of it that implies reasoning, and do not let
-the demo narration imply reasoning either (see `MASTERPLAN.md`'s Q&A section for the
+the demo narration imply reasoning either (see `../docs/MASTERPLAN.md`'s Q&A section for the
 correct framing).
 
 ## Setup
@@ -40,7 +40,7 @@ correct framing).
    down).
 
 ## Build `find_similar_moment()`
-Signature, constraints, and return shape are frozen in `INTERFACES.md` §1. Two things
+Signature, constraints, and return shape are frozen in `../docs/INTERFACES.md` §1. Two things
 worth restating because they're easy to get wrong under time pressure:
 
 - **4-second minimum clip length.** If Track A calls you with a shorter window, that's
@@ -66,7 +66,7 @@ random or the true match doesn't appear near the top, that's the signal to bring
 ## Wire into the `missing`-event handler
 Once standing-alone testing looks good, swap Track A's stub in
 `cyclops/retrieval/similar_moment.py` for your real implementation. This should be a
-drop-in — if it isn't, the signature drifted from `INTERFACES.md` and needs to be fixed
+drop-in — if it isn't, the signature drifted from `../docs/INTERFACES.md` and needs to be fixed
 back to match, not worked around on either side.
 
 ## The 2:00 checkpoint — this is a real go/no-go, not a soft deadline
@@ -86,7 +86,7 @@ Do not let this checkpoint slip informally. A late "actually it's working now" a
 much less valuable than a clean decision at 2:00 that let Track A build the rest of the
 day around a known state.
 
-## Q&A framing to have ready (also in `MASTERPLAN.md`)
+## Q&A framing to have ready (also in `../docs/MASTERPLAN.md`)
 "Cosmos 3, via ElideDB, isn't reasoning or predicting here — it's retrieval by motion
 similarity. It finds the other camera's footage of the same event; our own place
 recognition reads the location off the winning clip." Be ready to show the evidence

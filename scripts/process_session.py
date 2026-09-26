@@ -385,7 +385,7 @@ def main() -> int:
         for clip in missing_files:
             print(f"  {clip.clip_path} -> {clip.fs_path}", file=sys.stderr)
         print("Clips are copied off the phones to BOTH machines before anything else runs "
-              "(see STARTUP.md).", file=sys.stderr)
+              "(see docs/STARTUP.md).", file=sys.stderr)
         return 2
 
     database = dbmod.get_db(args.db)

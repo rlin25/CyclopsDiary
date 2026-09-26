@@ -12,7 +12,7 @@ Ask the human if it isn't obvious from what they're asking you to build. Don't g
 2. Read `IMPLEMENTATION_STRATEGY.md` in full.
 3. Read `INTERFACES.md` in full — you are the primary owner of seams 2, 3, and 4, and a
    consumer of seam 1.
-4. Read the specific subplan you're building (`subplans/M1_lean_core.md`, etc.).
+4. Read the specific subplan you're building (`../subplans/M1_lean_core.md`, etc.).
 
 **Track B** (Cosmos 3 / ElideDB retrieval, load test — `M2`, `M5`):
 1. Read `MASTERPLAN.md`, but you can skim past the build-order table for Track A rows.
@@ -21,8 +21,8 @@ Ask the human if it isn't obvious from what they're asking you to build. Don't g
 3. Read `IMPLEMENTATION_STRATEGY.md`'s "Time" and "MongoDB" sections only — you don't need
    the full belief state machine to build a retrieval function, only enough to know what
    your caller expects.
-4. Read `subplans/M2_cosmos_elidedb.md` in full; if building `M5`, also read
-   `subplans/M5_loadtest.md` in full.
+4. Read `../subplans/M2_cosmos_elidedb.md` in full; if building `M5`, also read
+   `../subplans/M5_loadtest.md` in full.
 
 Do not read the other track's full detail unless something in your own subplan explicitly
 points you there. This isn't secrecy — it's to keep each session's context focused on what

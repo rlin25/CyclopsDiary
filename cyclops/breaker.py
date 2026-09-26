@@ -1,7 +1,7 @@
 """A small circuit breaker, shared by every external service call.
 
 "After 3 consecutive failures of an external service, stop calling it for the next 60 seconds
-rather than blocking every request on it." — IMPLEMENTATION_STRATEGY.md, operationalizing Core
+rather than blocking every request on it." — docs/IMPLEMENTATION_STRATEGY.md, operationalizing Core
 Principle 6.
 
 The point is the demo never freezes. A service that is down should cost one timeout, not one

@@ -41,7 +41,7 @@ def sample_frames(clip: pathlib.Path, fps: float) -> list:
     except ImportError as exc:
         raise SystemExit(
             "opencv is not installed here, so backdrop clips cannot be read.\n"
-            "This is expected on the MSI: run this on the M5 (see STARTUP.md).\n"
+            "This is expected on the MSI: run this on the M5 (see docs/STARTUP.md).\n"
             "On the M5: pip install -r requirements-vision.txt"
         ) from exc
 

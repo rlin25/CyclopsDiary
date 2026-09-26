@@ -190,7 +190,7 @@ BREAKER_COOLDOWN_S = _float_env("BREAKER_COOLDOWN_S", 60.0)
 
 # ------------------------------------------------------------------------------ Retrieval
 
-#: Caller-side threshold for find_similar_moment() results (INTERFACES.md §1).
+#: Caller-side threshold for find_similar_moment() results (docs/INTERFACES.md §1).
 ELIDE_MIN_SIM = _float_env("ELIDE_MIN_SIM", 0.35)
 #: ElideDB's own minimum clip length. Windows shorter than this are padded, never sent.
 ELIDE_MIN_WINDOW_S = 4.0
@@ -231,7 +231,7 @@ FADE_HALF_LIFE_S = _float_env("FADE_HALF_LIFE_S", 1800.0)
 #: Below this, status becomes `faded`. Above it, fade changes wording only, never status.
 FADE_FLOOR = _float_env("FADE_FLOOR", 0.25)
 
-#: Fingerprints per object, diverse angles (IMPLEMENTATION_STRATEGY.md).
+#: Fingerprints per object, diverse angles (docs/IMPLEMENTATION_STRATEGY.md).
 MAX_FINGERPRINTS_PER_OBJECT = _int_env("MAX_FINGERPRINTS_PER_OBJECT", 12)
 #: A new fingerprint is stored only if it is at least this different from every existing
 #: one, so the 12 slots hold varied angles instead of 12 near-identical frames.

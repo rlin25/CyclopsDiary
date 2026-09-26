@@ -97,7 +97,7 @@ class Embedder:
         except ImportError as exc:
             raise RuntimeError(
                 "transformers/torch are not installed here, so DINOv2 cannot run.\n"
-                "This is expected on the MSI: run this on the M5 (see STARTUP.md).\n"
+                "This is expected on the MSI: run this on the M5 (see docs/STARTUP.md).\n"
                 "On the M5: pip install -r requirements-vision.txt"
             ) from exc
         device = self._device or ("cuda" if torch.cuda.is_available() else "cpu")

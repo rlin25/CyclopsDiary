@@ -3,7 +3,7 @@
 Track A. This is the one-shot target: everything below, and nothing else, until it passes
 every check. The predictor/retrieval call is a stub (returns `[]`) until M2 lands — build
 the `missing`-event handler to call `find_similar_moment()` per its real interface in
-`INTERFACES.md`, just point it at a stub implementation for now so M1 doesn't block on M2.
+`../docs/INTERFACES.md`, just point it at a stub implementation for now so M1 doesn't block on M2.
 
 ## Repo layout
 ```
@@ -18,7 +18,7 @@ cyclops/
   memory/registry.py          # objects (contact list) + fingerprints
   memory/matcher.py           # three-zone matching via $vectorSearch
   memory/beliefs.py           # belief state machine + confidence fade
-  retrieval/similar_moment.py # stub matching INTERFACES.md §1 until M2 lands
+  retrieval/similar_moment.py # stub matching docs/INTERFACES.md §1 until M2 lands
   agent/tools.py  agent/agent.py
   app/server.py  app/static/index.html
 eval/score.py                # M4/M5 live in eval/ too, but score.py is needed by M1's own checks
@@ -35,7 +35,7 @@ tests/
 - `data/places/<place_id>/*.mp4` — short backdrop clips from BOTH phones; `place_id` is
   the human-assigned label (e.g. `kitchen_counter`)
 - `data/labels/<session>/<scene>.yaml` — hand-written ground truth, format frozen in
-  `INTERFACES.md` §4
+  `../docs/INTERFACES.md` §4
 
 ## Pipeline (per session)
 0. **Vocabulary check (on the M5):** run YOLOE prompt-free on one clip and record the
@@ -55,24 +55,24 @@ tests/
    ≥ 1s, OR the track persists across a change of recognized place → `carried_by =
    <glasses wearer>`.
 6. **Match each surviving track (three-zone — full spec in
-   `IMPLEMENTATION_STRATEGY.md`):** filtered `$vectorSearch` on current place →
+   `../docs/IMPLEMENTATION_STRATEGY.md`):** filtered `$vectorSearch` on current place →
    unfiltered `$vectorSearch` → else new object. On join, add the fingerprint if
    sufficiently different (cap 12 per object).
 7. **Consolidate into diary events**, written only on state change: `appeared`,
    `left_view`, `picked_up`, `placed`, `missing`. (`matched` comes from the M2 hook, see
    below.)
 8. **Beliefs**, updated after each diary write — full state machine in
-   `IMPLEMENTATION_STRATEGY.md`. The `missing` handler calls
+   `../docs/IMPLEMENTATION_STRATEGY.md`. The `missing` handler calls
    `retrieval.similar_moment.find_similar_moment()` (stubbed in M1, real in M2) per the
-   signature in `INTERFACES.md` §1. Do not build a different signature "for now" — build
+   signature in `../docs/INTERFACES.md` §1. Do not build a different signature "for now" — build
    the real one against a stub body, so M2 is a drop-in.
 9. **Cache** every surviving track's full record (detections, fingerprint, recognized
    places over time, diary events produced) to
-   `data/cache/<session>/<scene>.jsonl` — format frozen in `INTERFACES.md` §4. This is
+   `data/cache/<session>/<scene>.jsonl` — format frozen in `../docs/INTERFACES.md` §4. This is
    required output, not optional logging — M4/M5 depend on it existing and matching the
    frozen shape.
 
-## Agent (read-only, 5 tools per `INTERFACES.md` §3)
+## Agent (read-only, 5 tools per `../docs/INTERFACES.md` §3)
 Implement `find_object`, `get_belief`, `what_is_at`, `timeline`, and
 `find_similar_past_moment` (the last one calling the same stub/real
 `find_similar_moment()` as step 8). Wire these as tools for the OpenRouter-hosted agent
@@ -104,7 +104,7 @@ list.
 - **(MSI, against real cache)** `python scripts/ask.py "where are my keys?" --asker A`
   returns the correct place from the s1 handoff scene's hand-written label.
 - **(MSI, against real cache)** `python -m eval.score s1` prints the +1/0/−1 totals per
-  `IMPLEMENTATION_STRATEGY.md`'s scoring rule.
+  `../docs/IMPLEMENTATION_STRATEGY.md`'s scoring rule.
 - **(MSI; may use `tests/fixtures/`)** `pytest` passes, including Hypothesis property
   tests for Core Principles 1–5 (append-only, diary-before-belief, traceability,
   sightings-beat-inferences, never-merge-when-unsure).

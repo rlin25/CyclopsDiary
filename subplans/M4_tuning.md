@@ -1,7 +1,7 @@
 # M4 — Held-Out Tuning
 
 Track A. Depends on M1's cache output (`data/cache/<session>/<scene>.jsonl`, format
-frozen in `INTERFACES.md` §4) and on Session 2 having been filmed and hand-labeled.
+frozen in `../docs/INTERFACES.md` §4) and on Session 2 having been filmed and hand-labeled.
 
 ## What "tuning" means here — say this correctly in the demo
 **No model weights change, anywhere.** The only thing being tuned is one number:
@@ -14,7 +14,7 @@ that don't apply and will sound thin if asked.
 Tuning `FADE_HALF_LIFE_S` and then scoring on the exact same data it was tuned against is
 studying the exam questions. It would look like learning but prove nothing. Session 1
 (training) and Session 2 (test, filmed with different starting spots, routes, and handoff
-destination — see `MASTERPLAN.md`'s build order) make this a fair test: Session 2 is
+destination — see `../docs/MASTERPLAN.md`'s build order) make this a fair test: Session 2 is
 genuinely new footage, not a re-enactment.
 
 ## Composites — volume without fabricating new visual evidence
@@ -42,7 +42,7 @@ Build `eval/composites.py`:
 ## Tuning
 `eval/tune.py`: grid-search `FADE_HALF_LIFE_S` over a small set of candidate values (e.g.
 10 min, 30 min, 2h, 6h). Score each against Session 1 composites using the scoring rule
-in `IMPLEMENTATION_STRATEGY.md` (+1 / 0 / −1). Keep the best-scoring value.
+in `../docs/IMPLEMENTATION_STRATEGY.md` (+1 / 0 / −1). Keep the best-scoring value.
 
 ## Testing
 Score **Session 2** (never touched during tuning) twice: once with the default

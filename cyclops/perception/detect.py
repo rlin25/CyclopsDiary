@@ -189,7 +189,7 @@ class Detector:
         except ImportError as exc:
             raise RuntimeError(
                 "ultralytics is not installed here, so YOLOE cannot run.\n"
-                "This is expected on the MSI: run this on the M5 (see STARTUP.md).\n"
+                "This is expected on the MSI: run this on the M5 (see docs/STARTUP.md).\n"
                 "On the M5: pip install -r requirements-vision.txt"
             ) from exc
         log.info("loading %s", self.weights)

@@ -7,7 +7,7 @@ entry that could be rewritten would make every answer unverifiable after the fac
 Core Principle 2 — diary before belief. `append()` returns only after the write succeeded.
 Callers update a belief on that return value, never before it and never without it.
 
-Shape is frozen in INTERFACES.md §2.
+Shape is frozen in docs/INTERFACES.md §2.
 """
 
 from __future__ import annotations

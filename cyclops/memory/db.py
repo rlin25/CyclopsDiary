@@ -7,7 +7,7 @@ Two hard constraints live here:
   create-if-absent, and `get_db()` refuses any database name outside `ALLOWED_DATABASES`.
 * **`diary` is a time series collection.** That is what makes it append-only in practice,
   and it is also why it cannot hold fingerprints or carry a search index — hence the split
-  into five collections described in IMPLEMENTATION_STRATEGY.md.
+  into five collections described in docs/IMPLEMENTATION_STRATEGY.md.
 """
 
 from __future__ import annotations

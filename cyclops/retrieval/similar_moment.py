@@ -1,4 +1,4 @@
-"""`find_similar_moment()` — seam #1 from INTERFACES.md.
+"""`find_similar_moment()` — seam #1 from docs/INTERFACES.md.
 
 **This is the M1 stub.** It returns `[]`. Track B replaces the body in M2 with the real ElideDB
 query; the signature here is already the real one, so that replacement is a drop-in and nothing
@@ -38,7 +38,7 @@ def find_similar_moment(
     Returns: [{"clip_path": str, "offset_s": float, "similarity": float}, ...]
     Empty list if nothing is found — never raises for a "no good match" case. Raises only on a
     hard failure (store unreachable, etc.), which the caller catches per the "degrade honestly"
-    rule in IMPLEMENTATION_STRATEGY.md.
+    rule in docs/IMPLEMENTATION_STRATEGY.md.
 
     Constraints (from ElideDB itself — do not violate):
     - t_end_s - t_start_s must be >= 4.0 seconds. Callers pad with `pad_window()` rather than
