@@ -74,9 +74,20 @@ all heavy compute. Track A still writes all Track A code — only where certain 
   evidence view, tuning, load test, and all `pytest` tests.
 - **Handoff:** Track A pushes code to GitHub; Track B pulls and runs the scripts on the
   M5. Those scripts write to Atlas directly and write `data/cache/<session>/*.jsonl`,
-  which Track B commits to the repo. Video clips live under `data/clips/` on the MSI's
-  disk only and are never committed (the repo is public; `data/clips/` is in
-  `.gitignore`).
+  which Track B commits to the repo. Video clips live under `data/clips/` on local disk
+  and are never committed (the repo is public; `data/clips/` is in `.gitignore`).
+- **Clips reach both machines by one copy step, before anything else runs.** Straight off
+  the phones by cable or AirDrop, to the MSI *and* the M5, into the same
+  `data/clips/<session>/<glasses>/` layout on each. This is a copy, not a sync system —
+  nothing runs afterwards to reconcile the two machines, and nothing checks that they
+  agree.
+  - **Filenames are fixed at transfer time and never renamed on either machine.** That is
+    what makes `clip_path` valid on both: the paths match by construction, not because
+    anything verifies them. Renaming a clip on one machine silently breaks either
+    processing on the M5 or playback on the MSI, with no error pointing at the cause.
+  - Both machines need the full set: the M5 reads clips to process them, and the MSI
+    serves them to the browser from its `/clips/` mount, so a clip present on only one
+    machine produces either a missing diary entry or a dead video player.
 - If a check requires running YOLOE, DINOv2, or ElideDB and this session is on the MSI,
   **stop and report that the check must run on the M5.** Do not attempt to run the
   models locally, and do not substitute results.
