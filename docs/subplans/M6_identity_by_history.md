@@ -3,7 +3,7 @@
 Track A (or whoever's free after M4/M5). **Only build this after M1–M5 all pass.** This is
 the last thing built before the 3:30 freeze, and it only goes into the *live* demo if it
 passes rehearsal by then — otherwise it stays as recorded-footage evidence and a prepared
-Q&A answer, never shown live unrehearsed. See `../docs/MASTERPLAN.md`'s superseded-decisions
+Q&A answer, never shown live unrehearsed. See `../MASTERPLAN.md`'s superseded-decisions
 table for why a live mismatch here is treated as worse than not showing it at all.
 
 ## The problem
@@ -23,7 +23,7 @@ looks different, but because of what happened around it.
 
 ## Build
 This slots into the **unclear zone** of the three-zone matcher (step 6 in
-`../docs/IMPLEMENTATION_STRATEGY.md`), which currently just creates a new object. Replace that
+`../IMPLEMENTATION_STRATEGY.md`), which currently just creates a new object. Replace that
 default only for this specific sub-case:
 
 1. When a sighting's fingerprint similarity is ambiguous between two or more existing
@@ -56,4 +56,4 @@ whether it resolves correctly, consistently — not once. "It worked once" is no
 
 If it doesn't pass rehearsal: leave it in the codebase (it's still valid work, shown in
 recorded footage and test scores) but do not include it in the live run-through. Use the
-prepared Q&A answer from `../docs/MASTERPLAN.md` instead.
+prepared Q&A answer from `../MASTERPLAN.md` instead.

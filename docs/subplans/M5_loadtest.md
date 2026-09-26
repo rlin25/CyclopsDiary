@@ -14,7 +14,7 @@ speech. Label the chart plainly: **"Load test: replayed detections from real foo
 ## Why replay saved detections, not raw video
 Re-running YOLOE/DINOv2 on ~8 hours of equivalent footage would take hours on a laptop.
 Instead: the vision models already ran once (in M1) and their output is cached per
-`../docs/INTERFACES.md` §4. Replaying that cached output through the memory system (diary write →
+`../INTERFACES.md` §4. Replaying that cached output through the memory system (diary write →
 belief update → matching) takes minutes, because the expensive part (vision) is skipped
 entirely. **Do not re-invoke YOLOE, DINOv2, or ElideDB during the load test** — anything
 that calls an external service or a GPU model here is a bug.

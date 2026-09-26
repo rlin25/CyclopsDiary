@@ -116,7 +116,7 @@ def find_similar_past_moment(clip_path: str, t_start_s: float, t_end_s: float) -
     """
 ```
 
-Answer wording (status × origin → phrasing) is specified in `../subplans/M1_lean_core.md`,
+Answer wording (status × origin → phrasing) is specified in `subplans/M1_lean_core.md`,
 not here — that's presentation logic, not an interface.
 
 ---

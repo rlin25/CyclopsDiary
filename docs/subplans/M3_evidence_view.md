@@ -7,7 +7,7 @@ dashboard" objection — detections and raw data appear here, behind a click, no
 main screen.
 
 ## What to build
-Expand the `evidence` field already returned by `get_belief()` (per `../docs/INTERFACES.md` §3)
+Expand the `evidence` field already returned by `get_belief()` (per `../INTERFACES.md` §3)
 into a real UI panel on the answer card:
 
 - The exact `$vectorSearch` (or aggregation) pipeline that produced the match, rendered
