@@ -146,5 +146,42 @@ detections, fingerprint, recognized places over time, and every diary event it p
 This is what M4's composite builder reads to construct composites and their derived truth
 without ever re-running the vision models.
 
+Concrete field names, so M4/M5 can be written before a cache file exists. One line per
+surviving track (tracks killed by the persistence filter never appear):
+
+```json
+{
+  "schema": "cyclops.cache.v1",
+  "session": "s1", "scene": "s1_handoff", "glasses": "B",
+  "clip_path": "clips/s1/B/IMG_0450.MOV",
+  "track_id": 14,
+  "object_id": "obj_7",
+  "class_name": "keys",
+  "first_seen_s": 40.0, "last_seen_s": 58.4,
+  "carried_by": "B",
+  "detections": [
+    {"offset_s": 40.0, "t": "<ISO8601>", "conf": 0.91, "bbox": [x1, y1, x2, y2],
+     "place_id": "kitchen_counter", "place_sim": 0.87, "hand_overlap": false}
+  ],
+  "places": [
+    {"from_s": 40.0, "to_s": 47.5, "place_id": "kitchen_counter", "sim_mean": 0.86}
+  ],
+  "fingerprint": {"vec": [384 floats, L2-normalized], "n_crops": 7, "degenerate": false},
+  "diary_events": ["<full diary documents, exactly as written, t as an ISO string>"]
+}
+```
+
+Notes that matter to a consumer:
+
+- `offset_s` is seconds into `clip_path`; `t` is the absolute time on the shared timeline
+  (that clip's hand-entered `start_time` + `offset_s`). Both are present so M4 never has to
+  re-derive one from the other.
+- `detections` carries the per-frame place; `places` is the same information collapsed into
+  runs, which is what composite truth is built from. Redundant on purpose.
+- `fingerprint.degenerate` is `true` when the crop embedding had zero norm and no vector
+  search was possible — the track still appears, and still became its own object.
+- `bbox` is `[x1, y1, x2, y2]` in pixels of the sampled frame.
+- A track with no recognized place anywhere has `places: []`, not a synthetic entry.
+
 If either shape needs a field added mid-build, add it — do not remove or rename an
 existing field, since the other track may already be depending on it.
