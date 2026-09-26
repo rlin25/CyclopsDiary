@@ -9,7 +9,7 @@ the `missing`-event handler to call `find_similar_moment()` per its real interfa
 ```
 cyclops/
   config.py                 # env + all tunables (thresholds, fade half-life, etc.)
-  timeutil.py                # clip start time (ffprobe creation_time) + session offset
+  timeutil.py                # clip start_time (hand-entered) + seconds into the clip
   perception/detect.py       # YOLOE track -> per-frame detections; persistence filter
   perception/embed.py        # DINOv2 crop + whole-frame fingerprints
   perception/places.py       # place recognition vs labeled backdrops
@@ -23,7 +23,7 @@ cyclops/
   app/server.py  app/static/index.html
 eval/score.py                # M4/M5 live in eval/ too, but score.py is needed by M1's own checks
 scripts/
-  setup_db.py  enroll_places.py  process_session.py  ask.py
+  setup_db.py  check_vocab.py  enroll_places.py  process_session.py  ask.py
 data/
   sessions.yaml  places/  clips/<session>/<glasses>/  labels/<session>/  cache/
 tests/
