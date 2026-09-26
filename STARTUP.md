@@ -74,8 +74,9 @@ all heavy compute. Track A still writes all Track A code — only where certain 
   evidence view, tuning, load test, and all `pytest` tests.
 - **Handoff:** Track A pushes code to GitHub; Track B pulls and runs the scripts on the
   M5. Those scripts write to Atlas directly and write `data/cache/<session>/*.jsonl`,
-  which Track B commits to the repo. Video clips live in S3 only and are never
-  committed (the repo is public).
+  which Track B commits to the repo. Video clips live under `data/clips/` on the MSI's
+  disk only and are never committed (the repo is public; `data/clips/` is in
+  `.gitignore`).
 - If a check requires running YOLOE, DINOv2, or ElideDB and this session is on the MSI,
   **stop and report that the check must run on the M5.** Do not attempt to run the
   models locally, and do not substitute results.

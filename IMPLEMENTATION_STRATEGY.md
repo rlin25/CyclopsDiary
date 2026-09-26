@@ -13,8 +13,9 @@ B (M2 / ElideDB only), you need only the "Time", "Stack" and "MongoDB" sections 
   CLS token, 384 dims, L2-normalized) — used for BOTH object crops and whole-frame place
   recognition
 - Memory: **MongoDB Atlas** (hackathon sandbox cluster) via `pymongo`
-- Video storage: **AWS S3** via `boto3`; presigned URLs generated fresh at question time,
-  never stored
+- Video storage: **local disk** under `data/clips/`, served by FastAPI's static file
+  mount at `/clips/`. `clip_url` is built by joining that mount's base URL with the
+  diary entry's `clip_path` — no external service, no credentials, no expiry to manage
 - Agent: tool-using LLM via OpenRouter (OpenAI-compatible SDK), model from env
   `AGENT_MODEL`.
 - Motion retrieval: **ElideDB**, wrapping Cosmos 3's encoders — retrieval only, see
@@ -25,7 +26,6 @@ B (M2 / ElideDB only), you need only the "Time", "Stack" and "MongoDB" sections 
 ```
 MONGODB_URI=            # Atlas sandbox cluster
 MONGODB_DB=cyclops      # load test uses cyclops_loadtest, a separate database
-AWS_REGION=  AWS_ACCESS_KEY_ID=  AWS_SECRET_ACCESS_KEY=  S3_BUCKET=
 OPENROUTER_API_KEY=     AGENT_MODEL=
 ELIDEDB_STORE_PATH=     ELIDE_MIN_SIM=0.35
 ```
@@ -54,7 +54,7 @@ split mirrors the record/belief distinction directly — `diary` is the permanen
 {"t": ISODate, "meta": {"session": "s1", "glasses": "B"},
  "object_id": "obj_7", "event": "placed", "place_id": "desk_drawer", "carried_by": null,
  "origin": "observed", "confidence": 0.93,
- "clip": {"s3_key": "clips/s1/B/IMG_0450.MOV", "offset_s": 55.2}, "track_id": 14}
+ "clip": {"clip_path": "clips/s1/B/IMG_0450.MOV", "offset_s": 55.2}, "track_id": 14}
 ```
 `event` ∈ `appeared | left_view | picked_up | placed | missing | matched`
 `origin` ∈ `observed | inferred | stated`
@@ -64,9 +64,9 @@ A `matched` event (from ElideDB retrieval — see `INTERFACES.md`) looks like:
 {"t": ISODate, "meta": {"session": "s1", "glasses": "B"},
  "object_id": "obj_7", "event": "matched", "place_id": "desk_drawer",
  "origin": "inferred", "confidence": 0.41,
- "evidence": {"query_clip": {"s3_key": "...", "start_s": 40.0, "end_s": 46.0},
-              "matched_clip": {"s3_key": "...", "offset_s": 12.5}},
- "clip": {"s3_key": "...", "offset_s": 12.5}}
+ "evidence": {"query_clip": {"clip_path": "...", "start_s": 40.0, "end_s": 46.0},
+              "matched_clip": {"clip_path": "...", "offset_s": 12.5}},
+ "clip": {"clip_path": "...", "offset_s": 12.5}}
 ```
 `confidence` here is the raw similarity score from ElideDB — never a made-up number.
 `place_id` is resolved by OUR place recognizer on the matched clip's frame, not by
@@ -78,7 +78,7 @@ ElideDB, which has no concept of places or labels.
  "place_id": "kitchen_counter", "carried_by": null,
  "last_confirmed_at": ISODate, "last_confirmed_by": "A", "belief_since": ISODate,
  "confidence": 0.9, "origin": "observed",
- "last_clip": {"s3_key": "...", "offset_s": 12.0}, "merges": []}
+ "last_clip": {"clip_path": "...", "offset_s": 12.0}, "merges": []}
 ```
 
 `fingerprints` document: `{"object_id", "vec": [384 floats], "place_id", "last_seen_at",

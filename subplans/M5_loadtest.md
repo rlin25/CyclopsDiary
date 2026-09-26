@@ -22,7 +22,7 @@ that calls an external service or a GPU model here is a bug.
 ## Build `eval/loadtest.py`
 1. **Separate database.** Point at `cyclops_loadtest` (a distinct Mongo database from the
    real `cyclops` one used by the live demo) so replayed data never mixes with what the
-   agent answers from live. Reuse the real S3 clip keys — don't re-upload video.
+   agent answers from live. Reuse the real clip paths on disk — don't re-upload or duplicate video files.
 2. **Shuffle scenes, not frames or individual clips** — same pairing rule as M4's
    composites (a scene's A/B perspectives move together). Mix scenes from whatever
    sessions are cached; unlike M4, mixing sessions here is fine since this isn't a

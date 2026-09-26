@@ -15,7 +15,7 @@ field; those imply reasoning that does not happen anywhere in this path.
 
 ```python
 def find_similar_moment(
-    clip_s3_key: str,
+    clip_path: str,
     t_start_s: float,
     t_end_s: float,
     top_k: int = 5,
@@ -25,7 +25,7 @@ def find_similar_moment(
     object) and return the top_k most similar moments found anywhere in the ingested
     footage (both phones), ranked by motion similarity.
 
-    Returns: [{"clip_s3_key": str, "offset_s": float, "similarity": float}, ...]
+    Returns: [{"clip_path": str, "offset_s": float, "similarity": float}, ...]
     Empty list if nothing clears ELIDE_MIN_SIM or on any failure — never raises for a
     "no good match" case. Raises only on a hard failure (store unreachable, etc.), which
     the caller catches per the "degrade honestly" rule in IMPLEMENTATION_STRATEGY.md.
@@ -71,7 +71,7 @@ shape being stable:
   "carried_by": "<A|B or null>",
   "origin": "observed|inferred|stated",
   "confidence": "<float 0-1>",
-  "clip": {"s3_key": "<str>", "offset_s": "<float>"},
+  "clip": {"clip_path": "<str>", "offset_s": "<float>"},
   "track_id": "<int, optional>",
   "evidence": "<object, present only on 'matched' events — see IMPLEMENTATION_STRATEGY.md>"
 }
@@ -93,9 +93,11 @@ def get_belief(object_id: str) -> dict:
     """
     Current belief + evidence for one object.
     Returns: {"status", "place_id", "carried_by", "last_confirmed_at",
-              "last_confirmed_by", "confidence", "origin", "clip_url" (fresh presigned,
-              generated at call time), "offset_s", "evidence": {diary entries + the
-              MongoDB query used, for the evidence view}}
+              "last_confirmed_by", "confidence", "origin", "clip_url" (a local URL
+              under the FastAPI app's own /clips/ static route, built from clip_path
+              at call time — no external service, no expiry), "offset_s",
+              "evidence": {diary entries + the MongoDB query used, for the
+              evidence view}}
     """
 
 def what_is_at(place_id: str) -> list[dict]:
@@ -106,7 +108,7 @@ def timeline(start: str, end: str, object_id: str | None = None) -> list[dict]:
     """MongoDB aggregation over `diary` between two ISO timestamps, optionally filtered
     to one object. Returns raw diary entries in time order."""
 
-def find_similar_past_moment(clip_s3_key: str, t_start_s: float, t_end_s: float) -> list[dict]:
+def find_similar_past_moment(clip_path: str, t_start_s: float, t_end_s: float) -> list[dict]:
     """
     Agent-facing wrapper around find_similar_moment() (seam #1), for direct questions
     like "has this happened before?" Same return shape. This is the ONLY place a human
