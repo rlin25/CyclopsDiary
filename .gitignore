@@ -1,0 +1,19 @@
+# Secrets
+.env
+
+# Video — S3 only, never committed (public repo)
+data/clips/
+*.MOV
+*.mov
+*.mp4
+
+# NOTE: data/cache/ is intentionally NOT ignored — the cache jsonl files
+# produced by process_session.py on the M5 are committed (see STARTUP.md).
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.hypothesis/
