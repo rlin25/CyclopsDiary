@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import dataclasses
 import logging
-from typing import Iterator, Sequence
+from typing import Any, Iterator, Sequence
 
 from cyclops import config
 
@@ -38,6 +38,27 @@ class FrameDetections:
     offset_s: float
     objects: list[Detection] = dataclasses.field(default_factory=list)
     hands: list[Box] = dataclasses.field(default_factory=list)
+    #: The decoded frame (HWC BGR), carried so whole-frame and crop embeddings come from the
+    #: same decode pass. Consumers embed and drop it — never accumulate frames for a clip.
+    image: Any | None = None
+
+    def crop(self, bbox: Box, pad: int = 0) -> Any | None:
+        """Pixels inside `bbox`, or None if the box is empty or off-frame.
+
+        Returning None rather than a 0x0 array is deliberate: an empty crop embeds to a zero
+        vector, and the matcher's degenerate path should be reserved for genuinely blurred
+        content, not for arithmetic that could have been caught here.
+        """
+        if self.image is None:
+            return None
+        height, width = self.image.shape[:2]
+        x1 = max(0, int(bbox[0]) - pad)
+        y1 = max(0, int(bbox[1]) - pad)
+        x2 = min(width, int(bbox[2]) + pad)
+        y2 = min(height, int(bbox[3]) + pad)
+        if x2 - x1 < 2 or y2 - y1 < 2:
+            return None
+        return self.image[y1:y2, x1:x2]
 
 
 @dataclasses.dataclass
@@ -207,7 +228,8 @@ class Detector:
             source=str(clip_fs_path), tracker="botsort.yaml", persist=True,
             stream=True, conf=config.PERSIST_MIN_CONF, vid_stride=stride, verbose=False,
         )):
-            frame = FrameDetections(offset_s=round(index * period, 3))
+            frame = FrameDetections(offset_s=round(index * period, 3),
+                                    image=getattr(result, "orig_img", None))
             names = getattr(result, "names", {}) or {}
             boxes = getattr(result, "boxes", None)
             if boxes is not None and len(boxes):
