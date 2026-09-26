@@ -1,0 +1,7 @@
+# Vision stack — Track B's M5 ONLY. Never installed on the MSI (see STARTUP.md:
+# the MSI never runs YOLOE, DINOv2, or ElideDB).
+-r requirements.txt
+ultralytics>=8.3        # YOLOE prompt-free + BoT-SORT tracking
+transformers>=4.40      # facebook/dinov2-small
+torch>=2.2
+torchvision>=0.17

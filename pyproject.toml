@@ -1,0 +1,7 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.hypothesis]
+# Property tests cover Core Principles 1-5; keep them quick enough to run on every commit.
+max_examples = 100
