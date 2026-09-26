@@ -137,14 +137,31 @@ def mongodb_db_name() -> str:
     return env("MONGODB_DB", DEFAULT_DB)
 
 
-# ------------------------------------------------------------------------------ S3 / AWS
+# ----------------------------------------------------------------------- Clips on disk
+# Clips are served by the app's own static mount, not by any external service. There are
+# no credentials and no expiry: a clip_path is valid for as long as the file is on disk.
 
-def s3_bucket() -> str:
-    return required_env("S3_BUCKET", "presigned clip_url in get_belief()")
+#: URL prefix the FastAPI app mounts `data/clips/` under.
+CLIPS_MOUNT = "/clips"
 
 
-def aws_region() -> str:
-    return required_env("AWS_REGION", "presigned clip_url in get_belief()")
+def clip_fs_path(clip_path: str) -> pathlib.Path:
+    """Resolve a diary entry's `clip_path` (e.g. "clips/s1/B/IMG_0450.MOV") to a file.
+
+    `clip_path` is relative to `data/`, and is refused if it escapes it — a diary entry is
+    data, and data must not be able to name a file outside the clips tree.
+    """
+    resolved = (DATA_DIR / clip_path).resolve()
+    clips_root = CLIPS_DIR.resolve()
+    if resolved != clips_root and clips_root not in resolved.parents:
+        raise ValueError(f"clip_path {clip_path!r} resolves outside {clips_root}")
+    return resolved
+
+
+def clip_url(clip_path: str) -> str:
+    """The browser-facing URL for a clip. Built at call time from `clip_path`; nothing is
+    stored and nothing expires."""
+    return f"{CLIPS_MOUNT}/{str(clip_path).removeprefix('clips/').lstrip('/')}"
 
 
 # ---------------------------------------------------------------------------- Agent / LLM

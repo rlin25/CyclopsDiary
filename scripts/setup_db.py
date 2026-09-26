@@ -21,17 +21,9 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 from cyclops import config                      # noqa: E402
 from cyclops.memory import db as dbmod          # noqa: E402
 
-ENV_KEYS = (
-    "MONGODB_URI", "MONGODB_DB",
-    "OPENROUTER_API_KEY", "AGENT_MODEL",
-    "AWS_REGION", "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "S3_BUCKET",
-)
+ENV_KEYS = ("MONGODB_URI", "MONGODB_DB", "OPENROUTER_API_KEY", "AGENT_MODEL")
 
 BLOCKED_BY = {
-    "AWS_REGION": "presigned clip_url",
-    "AWS_ACCESS_KEY_ID": "presigned clip_url",
-    "AWS_SECRET_ACCESS_KEY": "presigned clip_url",
-    "S3_BUCKET": "presigned clip_url",
     "OPENROUTER_API_KEY": "agent loop / ask.py / eval.score",
     "AGENT_MODEL": "agent loop / ask.py / eval.score",
 }

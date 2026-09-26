@@ -5,6 +5,5 @@ fastapi>=0.110
 uvicorn>=0.29
 PyYAML>=6.0             # data/sessions.yaml, data/labels/*.yaml
 numpy>=1.26             # cosine similarity over DINOv2 vectors
-boto3>=1.34             # S3 presigned URLs
 pytest>=8.0
 hypothesis>=6.100
